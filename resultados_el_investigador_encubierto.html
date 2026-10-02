@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados: El Investigador Encubierto - USAP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        usap: {
+                            green: 'rgb(24, 93, 168)', // Actualizado al nuevo Azul
+                            gold: 'rgb(231, 71, 21)',  // Actualizado al nuevo Naranja
+                            dark: '#1f2937',
+                            light: '#f9fafb'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animaciones sutiles */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        th { cursor: pointer; transition: background-color 0.2s; }
+        th:hover { background-color: rgba(255, 255, 255, 0.15); }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-usap-green text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="bg-white p-2 rounded-full shadow-lg">
+                    <span class="text-3xl">🏛️</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white tracking-wide">Universidad de San Pedro Sula (USAP)</h1>
+                    <p class="text-sm opacity-90 text-blue-100">Clase: Métodos y Técnicas de Investigación | Ing. Massiel Erazo</p>
+                </div>
+            </div>
+            <div class="mt-4 md:mt-0 text-right text-sm">
+                <p class="font-semibold text-lg text-white">🕵️‍♂️ El Investigador Encubierto</p>
+                <p class="opacity-90 text-blue-100">Fecha de evaluación: 20/06/2026</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- Panel de Estadísticas (Dashboard) -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-usap-green mb-4 border-b-2 border-usap-gold pb-2 inline-block">📊 Escenarios y Estadísticas Globales</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="stats-container">
+                <!-- Se llenará con JS -->
+            </div>
+        </div>
+
+        <!-- Tabla Interactiva -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-usap-light">
+                <h3 class="text-lg font-bold text-usap-green">👩‍🎓 Resultados de los Agentes</h3>
+                <span class="text-sm text-gray-500 italic">Haz clic en los encabezados para ordenar</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-usap-green text-white text-sm uppercase tracking-wider">
+                            <th class="px-6 py-4 font-semibold" onclick="sortTable('name')">👤 Agente <span id="sort-name" class="text-blue-200 ml-1"></span></th>
+                            <th class="px-6 py-4 font-semibold text-center" onclick="sortTable('cases')">🎯 Casos Resueltos <span id="sort-cases" class="text-blue-200 ml-1"></span></th>
+                            <th class="px-6 py-4 font-semibold text-center" onclick="sortTable('score')">⭐ Puntaje <span id="sort-score" class="text-blue-200 ml-1">▼</span></th>
+                            <th class="px-6 py-4 font-semibold text-center" onclick="sortTable('time')">⏳ Duración <span id="sort-time" class="text-blue-200 ml-1"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-gray-200">
+                        <!-- Filas de la tabla generadas por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 py-6 text-center text-gray-500 text-sm">
+        <p>Generado dinámicamente para reporte de Moodle. © 2026 USAP.</p>
+    </footer>
+
+    <script>
+        // Datos extraídos de los HTMLs
+        const studentsData = [
+            { name: "Daniel Santos Olivera Hernandez", cases: 8, score: 4823, timeMin: 4, timeSec: 35 },
+            { name: "Erick Hernain Briones Vásquez", cases: 9, score: 6267, timeMin: 3, timeSec: 43 },
+            { name: "Gabriela Jeanine Rodriguez Jimenez", cases: 7, score: 5028, timeMin: 3, timeSec: 19 },
+            { name: "Ingrid Gabriela Montes Marroquín", cases: 10, score: 6954, timeMin: 3, timeSec: 33 },
+            { name: "Melissa Shareem Ramirez Suarez", cases: 7, score: 5002, timeMin: 3, timeSec: 21 },
+            { name: "Oscar Rodríguez", cases: 6, score: 3900, timeMin: 5, timeSec: 3 },
+            { name: "Thierry Dougarry Paz Reyes", cases: 9, score: 6710, timeMin: 3, timeSec: 5 },
+            { name: "Valeria Lizzeth Amador Palma", cases: 8, score: 5195, timeMin: 4, timeSec: 18 },
+            { name: "Vivian Aldana", cases: 8, score: 6329, timeMin: 4, timeSec: 24 },
+            { name: "Jesy Karolina Acosta Mejia", cases: 7, score: 5039, timeMin: 3, timeSec: 30 }
+        ];
+
+        // Procesar datos (calcular tiempo total en segundos para facilitar ordenamiento y cálculos)
+        let students = studentsData.map(s => ({
+            ...s,
+            totalSeconds: (s.timeMin * 60) + s.timeSec,
+            timeFormatted: `${s.timeMin} min y ${s.timeSec} seg`
+        }));
+
+        // Variables de estado para ordenamiento
+        let currentSort = 'score';
+        let sortDesc = true;
+
+        // Función para renderizar la tabla
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            // Limpiar flechas
+            ['name', 'cases', 'score', 'time'].forEach(key => {
+                document.getElementById(`sort-${key}`).innerText = '';
+            });
+
+            // Establecer flecha activa
+            document.getElementById(`sort-${currentSort}`).innerText = sortDesc ? '▼' : '▲';
+
+            students.forEach((student, index) => {
+                const tr = document.createElement('tr');
+                tr.className = `hover:bg-blue-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
+                
+                // Resaltar a Ingrid (Puntaje Perfecto)
+                const isTop = student.cases === 10;
+                
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${isTop ? 'text-usap-green font-bold' : 'text-gray-900'}">
+                        ${isTop ? '🏆 ' : ''}${student.name}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${student.cases >= 8 ? 'bg-blue-100 text-blue-800' : 'bg-orange-100 text-orange-800'}">
+                            ${student.cases}/10
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center font-bold text-gray-700">
+                        ${student.score.toLocaleString()} pts
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                        ${student.timeFormatted}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Función para ordenar
+        function sortTable(key) {
+            if (currentSort === key) {
+                sortDesc = !sortDesc; // Invertir orden
+            } else {
+                currentSort = key;
+                sortDesc = key !== 'name'; // Nombre ascendente por defecto, números descendente
+            }
+
+            students.sort((a, b) => {
+                let valA, valB;
+                if (key === 'time') {
+                    valA = a.totalSeconds;
+                    valB = b.totalSeconds;
+                } else {
+                    valA = a[key];
+                    valB = b[key];
+                }
+
+                if (valA < valB) return sortDesc ? 1 : -1;
+                if (valA > valB) return sortDesc ? -1 : 1;
+                return 0;
+            });
+
+            renderTable();
+        }
+
+        // Función para formatear segundos a texto (min y seg)
+        function formatSeconds(totalSecs) {
+            const m = Math.floor(totalSecs / 60);
+            const s = Math.round(totalSecs % 60);
+            return `${m}m ${s}s`;
+        }
+
+        // Calcular y mostrar estadísticas
+        function calculateStats() {
+            const totalScore = students.reduce((acc, curr) => acc + curr.score, 0);
+            const avgScore = totalScore / students.length;
+            
+            const totalTime = students.reduce((acc, curr) => acc + curr.totalSeconds, 0);
+            const avgTime = totalTime / students.length;
+
+            const maxScoreStudent = students.reduce((max, curr) => curr.score > max.score ? curr : max, students[0]);
+            const minScoreStudent = students.reduce((min, curr) => curr.score < min.score ? curr : min, students[0]);
+            
+            const fastestStudent = students.reduce((min, curr) => curr.totalSeconds < min.totalSeconds ? curr : min, students[0]);
+            const slowestStudent = students.reduce((max, curr) => curr.totalSeconds > max.totalSeconds ? curr : max, students[0]);
+
+            const statsHtml = `
+                <!-- Mayor Puntaje -->
+                <div class="bg-white rounded-lg shadow p-5 border-l-4 border-usap-green fade-in">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">🏆</div>
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase font-bold">Mayor Puntaje</p>
+                            <p class="text-lg font-bold text-gray-800">${maxScoreStudent.name}</p>
+                            <p class="text-usap-green font-bold text-xl">${maxScoreStudent.score} pts <span class="text-sm font-normal text-gray-500">(${maxScoreStudent.cases}/10)</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Más Rápido -->
+                <div class="bg-white rounded-lg shadow p-5 border-l-4 border-blue-500 fade-in" style="animation-delay: 0.1s;">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">⚡</div>
+                        <div>
+                            <p class="text-sm text-gray-500 uppercase font-bold">Investigador más rápido</p>
+                            <p class="text-lg font-bold text-gray-800">${fastestStudent.name}</p>
+                            <p class="text-blue-600 font-bold text-xl">${fastestStudent.timeFormatted}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promedios -->
+                <div class="bg-usap-green text-white rounded-lg shadow p-5 fade-in border border-blue-400" style="animation-delay: 0.2s;">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">📈</div>
+                        <div>
+                            <p class="text-sm text-blue-200 uppercase font-bold">Medias del Grupo</p>
+                            <p class="text-lg"><span class="font-bold">Puntaje:</span> ${Math.round(avgScore).toLocaleString()} pts</p>
+                            <p class="text-lg"><span class="font-bold">Tiempo:</span> ${formatSeconds(avgTime)}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menores/Mayores Tiempos (Escenarios extremos) -->
+                <div class="bg-white rounded-lg shadow p-5 border-l-4 border-red-500 fade-in" style="animation-delay: 0.3s;">
+                    <div class="flex flex-col gap-2">
+                        <div class="border-b pb-2">
+                            <p class="text-xs text-gray-500 uppercase font-bold">Puntaje Mínimo 📉</p>
+                            <p class="text-sm font-bold text-gray-800">${minScoreStudent.name} <span class="text-red-500">(${minScoreStudent.score} pts)</span></p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase font-bold">Mayor Duración 🕰️</p>
+                            <p class="text-sm font-bold text-gray-800">${slowestStudent.name} <span class="text-orange-500">(${slowestStudent.timeFormatted})</span></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('stats-container').innerHTML = statsHtml;
+        }
+
+        // Inicializar
+        sortTable('score'); // Ordenar por puntaje por defecto
+        calculateStats();
+
+    </script>
+</body>
+</html>
